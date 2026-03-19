@@ -1,4 +1,5 @@
 import subprocess
+import sys
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
@@ -9,7 +10,9 @@ def run_extract_and_validate(root: Path, do_copy: bool):
     do_download = True
 
     command_parts = [
-        "MEDS_extract-MIMIC_IV",
+        sys.executable,
+        "-m",
+        "MIMIC_IV_MEDS",
         f"root_output_dir={str(root.resolve())}",
         f"do_download={do_download}",
         f"do_overwrite={do_overwrite}",
@@ -17,11 +20,10 @@ def run_extract_and_validate(root: Path, do_copy: bool):
         f"do_demo={do_demo}",
     ]
 
-    full_cmd = " ".join(command_parts)
-    command_out = subprocess.run(full_cmd, shell=True, capture_output=True)
+    command_out = subprocess.run(command_parts, capture_output=True, text=True)
 
-    stdout = command_out.stdout.decode()
-    stderr = command_out.stderr.decode()
+    stdout = command_out.stdout
+    stderr = command_out.stderr
 
     err_message = (
         f"Command failed with return code {command_out.returncode}.\n"

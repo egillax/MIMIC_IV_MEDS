@@ -27,15 +27,27 @@ When you run this, the program will:
     `$ROOT_OUTPUT_DIR/raw_input`.
 2. Perform initial, pre-MEDS processing on the raw MIMIC files, saving the results in
     `$ROOT_OUTPUT_DIR/pre_MEDS`.
-3. Construct the final MEDS cohort, and save it to `$ROOT_OUTPUT_DIR/MEDS_cohort`.
+3. Construct the final MEDS cohort, and save it to `$ROOT_OUTPUT_DIR/MEDS_output`.
 
 You can also specify the target directories more directly, with
 
 ```bash
 export DATASET_DOWNLOAD_USERNAME=$PHYSIONET_USERNAME
 export DATASET_DOWNLOAD_PASSWORD=$PHYSIONET_PASSWORD
-MEDS_extract-MIMIC_IV raw_input_dir=$RAW_INPUT_DIR pre_MEDS_dir=$PRE_MEDS_DIR MEDS_cohort_dir=$MEDS_COHORT_DIR
+MEDS_extract-MIMIC_IV raw_input_dir=$RAW_INPUT_DIR pre_MEDS_dir=$PRE_MEDS_DIR MEDS_output_dir=$MEDS_OUTPUT_DIR
 ```
+
+## Compatibility Notes
+
+This branch targets the MEDS package line used by `meds-torch-data==0.6.6`, which is currently used by MedRAP.
+In particular, it is intended to coexist with:
+
+- `polars~=1.30.0`
+- `meds~=0.4.0`
+- `MEDS_transforms~=0.5.3`
+- `meds-extract==0.3.0`
+
+That makes it suitable for notebook environments that need both MedRAP and `MIMIC_IV_MEDS` installed together.
 
 ## Examples and More Info:
 

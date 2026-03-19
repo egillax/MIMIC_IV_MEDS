@@ -1,0 +1,25 @@
+defaults:
+  - _self_
+
+event_conversion_config_fp: ${oc.env:EVENT_CONVERSION_CONFIG_FP}
+shards_map_fp: ${oc.env:MEDS_OUTPUT_DIR}/metadata/.shards.json
+seed: 1
+stage: split_and_shard_subjects
+
+stage_cfg:
+  data_input_dir: ${oc.env:MEDS_OUTPUT_DIR}/shard_events
+  output_dir: ${oc.env:MEDS_OUTPUT_DIR}/split_and_shard_subjects
+  n_subjects_per_shard: 1000
+  external_splits_json_fp: null
+  split_fracs:
+    train: 0.8
+    tuning: 0.1
+    held_out: 0.1
+
+hydra:
+  job:
+    name: "${stage}_${now:%Y-%m-%d_%H-%M-%S}"
+  run:
+    dir: "${stage_cfg.output_dir}/.logs"
+  sweep:
+    dir: "${stage_cfg.output_dir}/.logs"
